@@ -1,0 +1,16 @@
+﻿#snap-view{
+    display: none;
+}
+
+@media only screen 
+and (max-width : 320px) {
+        
+    #canvas{
+        display: none;
+    }
+
+    #snap-view{
+        display: block;
+    }
+
+}

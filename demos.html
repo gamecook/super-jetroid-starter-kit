@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Super Jetroid Demo Page</title>
+    <style type="text/css">
+        * {
+	      -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+	      -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+	    /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+	      -webkit-tap-highlight-color: rgba(0,0,0,0); 
+	      -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+	      -webkit-tap-highlight-color: rgba(0,0,0,0); 
+          -ms-touch-action: none; /* Shunt all pointer events to JavaScript code. */
+	    }
+
+        html, body {
+            background-color: #000;
+            color: #666;
+            font-family: helvetica, arial, sans-serif;
+            padding: 0;
+            font-size: 12pt;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #gameArea {
+            position:absolute;
+	        left:50%;
+	        margin:0 0 0 -400px;
+            width: 800px;
+            height: 480px;
+        }
+
+        #canvas {
+            width: 800px;
+            height: 480px;
+        }
+    </style>
+
+    <!--source scripts-->
+    <script type="text/javascript" src="lib/impact/impact.js"></script>
+    <script type="text/javascript" src="lib/demos/main-demos.js"></script>
+    <!--end source scripts-->
+
+</head>
+<body>
+    <div id="gameArea">
+        <h1 id="title"></h1>
+        <canvas id="canvas"></canvas>
+        <form>
+            <select id="menu" name="URL" onchange="window.location.href=this.form.URL.options[this.form.URL.selectedIndex].value">
+                <option value="">Choose a Demo</option>
+                <option value="demos.html?demo=select-screen">Level Select Screen Demo</option>
+                <option value="demos.html?demo=keyboard">Keyboard Demo</option>
+                <option value="demos.html?demo=touch">Touch Demo</option>
+                <option value="demos.html?demo=aliena">Alien A Demo</option>
+                <option value="demos.html?demo=alienb">Alien B Demo</option>
+                <option value="demos.html?demo=alienc">Alien C Demo</option>
+                <option value="demos.html?demo=aliend">Alien D Demo</option>
+                <option value="demos.html?demo=blocks">Blocks Demo</option>
+                <option value="demos.html?demo=spikes">Spikes Demo</option>
+                <option value="demos.html?demo=switches">Switches Demo</option>
+                <option value="demos.html?demo=all-obstacles">All Obstacles Demo</option>
+                <option value="demos.html?demo=collectables">Collectables Demo</option>
+                <option value="demos.html?demo=effects">Effects Demo</option>
+                <option value="demos.html?demo=radar">Radar Demo</option>
+            </select>
+        </form>
+    </div>
+
+    
+</body>
+</html>
+

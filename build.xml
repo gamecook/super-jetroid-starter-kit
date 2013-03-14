@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<project name="Impact Ant Build" basedir="." default="full-build">
+
+    <!-- Change these properties based on your project -->
+
+    <!-- Project meta data -->
+    <property name="project.name" value="Super Jetroid"/>
+    <property name="company.name" value="Game Cook"/>
+    <property name="company.site" value="http://gamecook.com"/>
+    <property name="project.version" value="1.0.0"/>
+    <property name="project.description" value="Welcome to Super Paper Monster Smasher. It's your turn to finally take over as the monster and smash your way through level after level of good guys all trying to put an end to your evil reign of terror."/>
+
+    <!-- Deployment directories -->
+    <property name="deploy.dir" value="deploy"/>
+    <property name="web.dir" value="${deploy.dir}/web"/>
+    <property name="wordpress.dir" value="${deploy.dir}/wordpress"/>
+    <property name="chrome.dir" value="${deploy.dir}/chrome"/>
+    <property name="mozilla.dir" value="${deploy.dir}/mozilla"/>
+    <property name="ios.dir" value="${deploy.dir}/ios"/>
+    <property name="win8.dir" value="${deploy.dir}/win8"/>
+
+    <!-- Path to Impact directory -->
+    <property name="impact.dir" value="${basedir}"/>
+
+  <property name="worpress.path" value="/wp-content/games/play/super-jetroid/media"/>
+  
+    <target name="full-build">
+        <!-- Clean -->
+        <antcall target="pre-build-cleanup"/>
+        <antcall target="bake"/>
+        <antcall target="bake-demos"/>
+        <antcall target="web-build"/>
+        <antcall target="chrome-build"/>
+        <antcall target="wordpress-build"/>
+       <!-- <antcall target="ios-build"/>
+        <antcall target="mozilla-build"/>
+        <antcall target="post-build-cleanup"/>-->
+        <!-- Bake -->
+    </target>
+
+    <!-- Delete deploy directory and create a new one -->
+    <target name="pre-build-cleanup">
+        <delete dir="${deploy.dir}"/>
+        <mkdir dir="${deploy.dir}"/>
+    </target>
+
+    <!-- Removes the minified game from the impact directory-->
+    <target name="post-build-cleanup">
+        <delete file="${impact.dir}/js/game.min.js"/>
+    </target>
+
+    <!-- Run the bake script - you need PHP to be runnable from the command line. -->
+    <target name="bake">
+
+        <exec dir="${impact.dir}" executable="php">
+            <arg value="${impact.dir}/tools/bake.php"/>
+            <arg value="lib/impact/impact.js"/>
+            <arg value="lib/game/main.js"/>
+            <arg value="js/game.min.js"/>
+        </exec>
+
+    </target>
+
+  <!-- Run the bake script - you need PHP to be runnable from the command line. -->
+  <target name="bake-demos">
+
+    <exec dir="${impact.dir}" executable="php">
+      <arg value="${impact.dir}/tools/bake.php"/>
+      <arg value="lib/impact/impact.js"/>
+      <arg value="lib/game/main-demos.js"/>
+      <arg value="js/game-demos.min.js"/>
+    </exec>
+
+  </target>
+  
+    <target name="web-build">
+       
+      <copy todir="${web.dir}">
+        <fileset file="${impact.dir}/index.html"/>
+      </copy>
+
+      <copy todir="${web.dir}">
+        <fileset file="${impact.dir}/demos.html"/>
+      </copy>
+      
+      <copy todir="${web.dir}/lib/impact/debug/">
+        <fileset file="${impact.dir}/lib/impact/debug/debug.css"/>
+      </copy>
+      
+      <copy todir="${web.dir}/js">
+        <fileset dir="${impact.dir}/js"/>
+      </copy>
+
+      <copy todir="${web.dir}/media">
+        <fileset dir="${impact.dir}/media"/>
+      </copy>
+
+      <copy todir="${web.dir}/css">
+        <fileset dir="${impact.dir}/css"/>
+      </copy>
+      
+      <!-- replace js source paths in HTML with minified game js. Make sure code is surrounded by "source script" comments so the regex can find it. -->
+        <replaceregexp file="${web.dir}/index.html"
+                       match="\&lt;!--source scripts--\&gt;(.*?)\&lt;!--end source scripts--\&gt;"
+                       replace="\&lt;script src='js/game.min.js'\&gt;\&lt;/script\&gt;" flags="gs">
+        </replaceregexp>
+        <!-- This will copy over debug CSS if game is running in debug mode. -->
+
+      <!-- replace js source paths in HTML with minified game js. Make sure code is surrounded by "source script" comments so the regex can find it. -->
+      <replaceregexp file="${web.dir}/demos.html"
+                     match="\&lt;!--source scripts--\&gt;(.*?)\&lt;!--end source scripts--\&gt;"
+                     replace="\&lt;script src='js/game-demos.min.js'\&gt;\&lt;/script\&gt;" flags="gs">
+      </replaceregexp>
+      <!-- This will copy over debug CSS if game is running in debug mode. -->
+
+
+
+    </target>
+
+    <target name="ios-build">
+        <!-- copy over files for iOS -->
+        <sync todir="${ios.dir}">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+    </target>
+
+  <target name="wordpress-build">
+
+    <!-- Create chrome market app -->
+    <sync todir="${wordpress.dir}/">
+      <fileset dir="${web.dir}">
+      </fileset>
+    </sync>
+
+    <replaceregexp file="${wordpress.dir}/js/game.min.js"
+                       match="media/"
+                       replace="/wp-content/games/super-jetroid/media/" flags="g">
+    </replaceregexp>
+
+    <replaceregexp file="${wordpress.dir}/js/game-demos.min.js"
+                       match="media/"
+                       replace="/wp-content/games/super-jetroid/media/" flags="g">
+    </replaceregexp>
+    
+  </target>
+  
+    <target name="chrome-build">
+
+        <!-- Create chrome market app -->
+        <sync todir="${chrome.dir}/tmp">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+
+      <copy todir="${chrome.dir}/tmp/images">
+        <fileset dir="${impact.dir}/images"/>
+      </copy>
+      
+        <echo file="${chrome.dir}/tmp/manifest.json" append="false">
+          {
+          "name": "${project.name}",
+          "version": "${project.version}",
+          "icons": { "16": "images/icons/icon-16x16.png", "48": "images/icons/icon-48x48.png", "128": "images/icons/icon-128x128.png" },
+          "app": {
+          "launch": {
+          "local_path": "index.html"
+          }
+          },
+          "manifest_version": 2
+          }
+        </echo>
+
+        <zip destfile="${chrome.dir}/${project.name}-${project.version}.zip" basedir="${chrome.dir}/tmp"/>
+        <delete dir="${chrome.dir}/tmp/"/>
+    </target>
+
+    <target name="mozilla-build">
+        <!-- Create Mozilla App -->
+        <sync todir="${mozilla.dir}">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+
+        <echo file="${mozilla.dir}/manifest.json" append="false">
+            {
+            "name":"${project.name}",
+            "developer": {
+            "name":"${company.name}",
+            "url":"${company.site}"
+            },
+            "description":"${project.description}",
+            "icons":{
+            "16": "/images/icons/icon-16x16.png",
+            "48": "/images/icons/icon-48x48.png",
+            "128": "/images/icons/icon-128x128.png"
+            }
+            }
+        </echo>
+    </target>
+
+</project>
