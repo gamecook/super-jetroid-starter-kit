@@ -64,7 +64,8 @@ Now that we have covered how plugins and entities work, let's look at the last d
 The resources directory includes all of the artwork needed for the game. There are broken up into individual sprites. You will need to use shoebox to package them up into Texture Atlases. You will find a shoebox setting file for doing this. You are free to repurpose the demo game artwork for yourself.
 
 ###Sound Effects
-Impact Bootstrap comes with a set of pre-generated sound effects, which you can use as placeholders or put them in your final game. You will find MP3 and Ogg versions in the `media/bootstrap/sounds` folder for use in your game. ##Change Log
-**v1.0.0-beta**
-Initial Import from my original Impact Bootstrap with a modified version of Super Jetroid and Win8 specific additions such as resizing, touch controls and stripping out platform plugins not needed on Win8.
+Impact Bootstrap comes with a set of pre-generated sound effects, which you can use as placeholders or put them in your final game. You will find MP3 and Ogg versions in the `media/bootstrap/sounds` folder for use in your game. 
+
+##Change Log
+**v1.0.0** Initial Import from my original Impact Bootstrap with a modified version of Super Jetroid and Win8 specific additions such as resizing, touch controls and stripping out platform plugins not needed on Win8.
 
