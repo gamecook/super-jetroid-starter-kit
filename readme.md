@@ -10,6 +10,9 @@ Super Jetroid Starter Kit is a full game template to help you fast track your Im
 
 Here is a brief overview of the Starter Kit and how to use it:
 ##Getting Started
+
+*** Important Note: You will need a copy of ImpactJS ([http://impactjs.com][1]) in order to compile this project. ***
+
 Once you check out the bootstrap you can simply drop it into a Visual Studio project include the starter kit game directories (lib, media, and additional CSS/JS files) and run the project.
 One thing to note is that the Starter Kit comes with it's own Weltmeister config.js file. You will need to use this file or at least add the following to your requires block:
 
@@ -69,3 +72,5 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 ##Change Log
 **v1.0.0** Initial Import from my original Impact Bootstrap with a modified version of Super Jetroid and Win8 specific additions such as resizing, touch controls and stripping out platform plugins not needed on Win8.
 
+
+  [1]: http://impactjs.com
