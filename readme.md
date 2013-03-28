@@ -21,7 +21,7 @@ One thing to note is that the Starter Kit comes with it's own Weltmeister config
 
 Which will allow you to see the graphics for the game and take advantage of the bootstrap's random map generator.
 
-*(More details coming soon)* 
+**I have also started posting videos on  [how to use the Starter Kit here][2] .**
 
 ##Impact Bootstrap  And Super Jetroid Code
 The lib directory is set up exactly like any default Impact project. Inside, you will find the following directories and files:
@@ -74,3 +74,4 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 
 
   [1]: http://impactjs.com
+  [2]: https://vimeo.com/channels/500607
